@@ -1,0 +1,621 @@
+\documentclass[a4paper]{article}
+%\documentclass[a5paper]{article}
+\usepackage{microtype}
+\usepackage[T1]{fontenc}
+\usepackage[utf8x]{inputenc}
+\usepackage{mathtools}
+\usepackage{amssymb}
+\usepackage{amsthm}
+\usepackage{mathpple}
+\usepackage{eulervm}
+\usepackage{framed}
+\usepackage{footnote}
+\usepackage{booktabs}
+\usepackage{xcolor}
+\usepackage{caption}
+\usepackage{subcaption}
+\usepackage{braket}
+%\usepackage[papersize={4.5in,6in},margin=0.5cm]{geometry} %per e-reader
+
+\mathtoolsset{showonlyrefs}
+% Colori
+\definecolor{dgreen}{RGB}{0,150,0}
+\definecolor{dred}{RGB}{150,0,0}
+
+% Operatori
+% --------------------
+\DeclareMathOperator{\Tr}{Tr}
+%\DeclareMathOperator{\det}{det}
+\DeclareMathOperator{\atanh}{atanh}
+
+% Abbreviazioni comode
+% --------------------
+\newcommand{\p}{\partial}
+\newcommand{\abs}[1]{\lvert #1 \rvert}
+\newcommand{\Real}{\mathbb{R}}
+\newcommand{\Hil}{\mathcal{H}}
+\newcommand{\op}[1]{\mathbf{#1}}
+\newcommand{\acron}[1]{\textsc{#1}}
+\newcommand{\HVT}{\acron{hvt}}
+\newcommand{\QM}{\acron{qm}}
+\newcommand{\I}{\mathbf{I}}
+\newcommand{\red}[1]{\textcolor{dred}{#1}}
+\newcommand{\green}[1]{\textcolor{dgreen}{#1}}
+
+% Ambienti
+% --------
+\newtheorem{theorem}{Theorem}[section]
+
+\theoremstyle{definition}
+\newtheorem{definition}{Definition}[section]
+
+\let\oldproof\proof
+\let\oldendproof\endproof
+\renewenvironment{proof}
+    {
+        \begin{framed} 
+        \oldproof
+    }
+    {
+        \oldendproof 
+        \end{framed}
+    }
+
+\begin{document}
+\title{Notes on Contextuality}
+\author{Davide Poderini}
+\date{}
+\maketitle
+
+\section{Introduction}
+To do.
+\section{Fundamentals}
+Suppose we can perform on a system measurements of some observables $A_1, A_2,\ldots, A_n$,
+whose outcomes are designated by $a_1, a_2, \ldots, a_n$, and suppose that not all of these
+observables can be measured at once without disturbing the system.
+We call the properties that can be measured together \emph{compatible}, and
+\emph{non compatible} the ones that cannot.
+
+We then define as the \emph{context} of the measurement of $A_i$ the other
+\emph{compatible} properties that are measured together with it.
+A theory is said to be \emph{non contextual} if the predicted outcome $a_i$ of some observable
+$A_i$ does not depend on the context.
+If it does we say that the theory is \emph{contextual}.
+
+In quantum theory compatible measurements are represented by commuting operators
+on a Hilbert space $\Hil$. 
+In this section we can limit ourselves to consider only dichotomous
+measurements, which are represented by projectors in \QM{}.
+Compatible observables in this case are equivalent to orthogonal projectors.
+
+In \QM{} contextuality is said to be \emph{not explicit}. This means that the outcome of a measure of an
+observable $A_i$ may depend on the context, but the probability for that single
+observable $p(A_i = a_i)$, does not.
+This is also called the \emph{no-disturbance} or \emph{no-signaling} principle.
+
+Nonetheless, as we will show in this section, a non-contextual \HVT{} (hidden
+variable theory) cannot reproduce the prediction of \QM{}.
+
+\subsection{Joint probability}
+\label{sec:joint_prob}
+The problem of the existence of a non-contextual \HVT{} can be better
+expressed in terms of probability distributions.
+To simplify the notation we call $f(a_1,\ldots,a_k) = p(A_1=a_1, \ldots,
+A_k=a_k)$ the probability that the measure of $A_1,\ldots,A_k$ gives outcomes
+$a_1,\ldots,a_k$.
+
+Quantum mechanics gives us only the joint probability distribution for
+\emph{compatible} observables.
+So if $\{A_1, A_2\}$ are compatible observables, but $\{A_1, A_2, A_3\}$ are
+not, \QM{} gives us only $f(a_1, a_2)$, without any information about an
+hypothetical $f(a_1, a_2, a_3)$.
+
+A non-contextual \HVT{} instead, the presence of a global joint probability distribution for all
+observables $f(a_1, \ldots, a_n)$ is assured by the fact that every property of
+the system must have a definite value, and the uncertainty is only given by our
+ignorance about the initial conditions.
+From that global joint distribution one should be able to derive the quantum
+mechanical ones for compatible observables $f(a_1, \ldots, a_k)$, as marginals.
+
+The possibility of the existence of a joint probability distribution depends on
+the compatibility relations between the observables.
+To better visualize them, we can construct a graph where every vertex represents
+an observable and two vertex are connected if the corresponding observables are
+compatible, some examples are shown in figure \ref{fig:jointprob_graphs}.
+\begin{figure}[h]
+    \begin{subfigure}{.3\textwidth}
+        \center
+        \includegraphics[width=.8\textwidth]{prob_graph1.pdf}
+        \caption{}
+        \label{fig:jointprob_graph1}
+    \end{subfigure}
+    \begin{subfigure}{.3\textwidth}
+        \center
+        \includegraphics[width=.7\textwidth]{CHSH_obs.pdf}
+        \caption{}
+        \label{fig:jointprob_CHSH}
+    \end{subfigure}
+    \begin{subfigure}{.3\textwidth}
+        \center
+        \includegraphics[width=\textwidth]{KCBS_obs.pdf}
+        \caption{}
+        \label{fig:jointprob_KCBS}
+    \end{subfigure}
+    \caption{Examples of compatibility graphs}
+    \label{fig:jointprob_graphs}
+\end{figure}
+
+A sufficient condition for the existence of a joint probability
+distribution is that the corresponding graph should not contain \emph{n-cycles} with $n>3$.
+\footnote{The definition of \emph{n-cycle}, and other terms related to graph
+theory, is given in the appendix \ref{sec:graph}.}
+This statement is easily proved by constructing the joint probability for such a
+graph.
+\begin{proof}
+If there are only 3-cycles, it is always possible to construct a global joint
+probability distribution from the joint distributions of compatible observables
+as follows:
+first multiply together the joint distribution for every 3-cycle 
+\footnote{A 3-cycle is also a clique of three mutually compatible observable, so a
+joint distribution for all three variables is experimentally accessible.}
+$f(a_i, a_j,a_k)$, then multiply those by the joint distributions for all the other edges,
+and if an observable is present in more than one distribution divide by
+$f(a_l)^{n-1}$, where $n$ is the number of terms in which it appears.
+For example, for the first graph in figure \ref{fig:jointprob_graphs} we have:
+\begin{equation}
+    f(a_1,\ldots,a_6) = \frac{f(a_1,a_2,a_3) f(a_2, a_6) f(a_3,a_4)
+    f(a_4,a_5)}{f(a_2) f(a_3) f(a_4)}
+    \label{eq:jointprob_graph1}
+\end{equation}
+from which all the joint distributions for every edge can be obtained by summing
+over the other variables.
+\end{proof}
+So for example it is certainly possible to construct such a distribution for
+graph \ref{fig:jointprob_graph1}, but not for graphs \ref{fig:jointprob_CHSH}
+and \ref{fig:jointprob_KCBS}.
+
+While this gives no information about the existence of a joint distribution for
+other graphs, the next two theorems will prove that a
+similar construction is impossible in general.
+
+\subsection{Gleason's theorem}
+In the course of an analysis on the axioms of quantum theory,
+Gleason proved an important theorem that poses a limit to form that the
+distribution of an hypothetical \HVT{} could have.
+
+As we said in quantum theory every yes-no test about a system can be represented by a
+projector $\op P$ in a Hilbert space $\Hil$.
+A \emph{quantum probability distribution} is a function $f(\op P)$ that assign to every
+such projector a value such that:
+\begin{align}
+    &f(\op P) > 0 \\
+    &\sum_i f(\op P_i) = 1 & \text{for every orthogonal base} \quad \{P_i\}
+    \label{eq:gleason_th_hypotesis}
+\end{align}
+
+What Gleason proved is that every quantum probability distribution $f$ on an Hilbert space
+of dimension greater than three can be written as:
+\begin{equation}
+    f(\op P) = \Tr(\rho \op P)
+    \label{eq:gleason_prob}
+\end{equation}
+for a suitable positive semi-definite, hermitian operator $\rho$, such that
+$\Tr(\rho) = 1$.
+This means that the density matrix formalism is enough to describe the most general kind of
+quantum probability distribution in an Hilbert space.
+
+\begin{proof}
+    To do.
+\end{proof}
+
+With this theorem is possible to deduce quantum theory from these three
+postulates:
+\begin{enumerate}
+    \item Dichotomous tests are represented by projectors in a Hilbert space.
+    \item Compatible test are represented by commuting projectors.
+    \item If $P$ and $Q$ are orthogonal projector then
+        \begin{equation}
+            \langle{P + Q}\rangle = \langle{P}\rangle + \langle{Q}\rangle
+            \label{eq:QM_axiom3}
+        \end{equation}
+\end{enumerate}
+
+For a non-contextual \HVT{} to exist, it has to be possible then to define a function $f(P)$ with values
+$0$ or $1$ for every projector $P$ in $\Hil$.
+Such a function cannot be written in the form \eqref{eq:gleason_prob}, required
+by Gleason theorem for a probability distribution in $\Hil$, so for a \HVT{}, we
+are forced to abandon axiom (3).
+%talk about axiom 3
+
+\subsection{Kochen-Specker theorem}
+This fundamental incompatibility is better expressed by the Kochen-Specker
+theorem.
+
+This theorem affirms that in an Hilbert space $\Hil$ of dimension $d\ge 3$, there is no
+function $h$ from the set of projectors of $\Hil$ to $\{0,1\}$ such that:
+\begin{equation}
+    \sum_i P_i = \I \implies \sum_i h(P_i) = 1 
+    \label{eq:KS_function_prop}
+\end{equation}
+
+The proofs of this theorem are usually constructive: they present a set of
+projectors and show how such a function $h$ cannot be defined.
+The original proof used $117$ projectors in a three dimensional space, but
+smaller sets exists.
+For example this proof, due to A. Peres uses only 33 rays:
+%cita
+\begin{proof}
+    The 33 rays in question are shown in figure and listed in the table below.
+    We will show that is impossible to assign value $1$ or $0$ to these rays
+    without violating \eqref{eq:KS_function_prop}.
+    To better visualize the argument we will use the colors \emph{green} and
+    \emph{red} to represent the values $1$ and $0$ respectively.
+
+    \begin{center}
+        \includegraphics[scale=1.5]{KS33cube.pdf} \\
+    \end{center}
+    \begin{center}
+    \begin{tabular}{lrlrlr}
+        \multicolumn{2}{l}{Peres KS set} \\
+        \toprule
+        $1$ & $(1, 0, 0)$ & $12$ & $(\sqrt{2}, 0, -1)$ & $23$ & $(-1, \sqrt{2}, 1)$ \\ 
+        $2$ & $(0, 1, 0)$ & $13$ & $(\sqrt{2}, -1, 0)$  & $24$ & $(1, \sqrt{2}, -1)$ \\
+        $3$ & $(0, 0, 1)$ & $14$ & $(\sqrt{2}, 1, 1)$  & $25$ & $(-1, \sqrt{2}, -1)$ \\
+        $4$ & $(1, 1, 0)$ & $15$ & $(\sqrt{2}, -1, 1)$  & $26$ & $(0, 1,\sqrt{2})$ \\
+        $5$ & $(0, 1, 1)$ & $16$ & $(\sqrt{2}, 1, -1)$  & $27$ & $(1, 0, \sqrt{2})$ \\
+        $6$ & $(1, 0, 1)$ & $17$ & $(\sqrt{2}, -1, -1)$  & $28$ & $(0, -1,\sqrt{2})$ \\
+        $7$ & $(-1, 1, 0)$ & $18$ & $(0, \sqrt{2}, 1)$  & $29$ & $(-1, 0,\sqrt{2})$ \\
+        $8$ & $(0, -1, 1)$ & $19$ & $(1, \sqrt{2}, 0)$  & $30$ & $(1,1,\sqrt{2})$ \\
+        $9$ & $(1, 0, -1)$ & $20$ & $(0, \sqrt{2}, -1)$  & $31$ & $(-1, 1, \sqrt{2})$ \\
+        $10$ & $(\sqrt{2}, 0, 1)$ & $21$ & $(-1, \sqrt{2}, 0)$  & $32$ & $(1,-1, \sqrt{2})$ \\
+        $11$ & $(\sqrt{2}, 1, 0)$ & $22$ & $(1, \sqrt{2}, 1)$  & $33$ & $(-1,-1, \sqrt{2})$ \\
+    \end{tabular}   
+    \end{center}
+    As we can see the system is symmetric under the interchange or the reversal
+    of the axes $x,y,z$.
+    This means that without losing generality we can paint green any of
+    the rays in the orthogonal triad $\{1,2,3\}$.
+    Similarly in $\{1,5,8\}$  we can choose between $5$ or $8$ (reversal of the
+    $y$ axis), between $6$ or $9$ in $\{2,6,9\}$ (reversal of the $x$ axis)
+     and between $31$ or $32$ in $\{4,31,32\}$ (interchange of $x$ with $y$).
+
+    If we choose for example to paint $3,5,6$ and $32$ green, the value of the other rays
+    will be fixed by the procedure shown below: \\
+    \begin{center}
+    \begin{tabular}{lclcl}
+        $\green{3}$  & $\implies$ & \multicolumn{3}{l}{\red{$1, 2, 4, 7,11, 13, 19, 21$}}\\
+        $\green{5}$  & $\implies$ & \multicolumn{3}{l}{\red{$1, 8, 15, 16$}} \\
+        $\green{6}$  & $\implies$ & \multicolumn{3}{l}{\red{$2, 9, 23, 24$}} \\
+        $\green{32}$ & $\implies$ & \multicolumn{3}{l}{\red{$4,12,18,31$}} \\
+        \midrule
+        \red{$12,2$} & $\implies$ & \green{$27$} & $\implies$ & \red{$17$} \\
+        \red{$8,17$} & $\implies$ & \green{$14$} & $\implies$ & \red{$29$} \\
+        \red{$29,2$} & $\implies$ & \green{$10$} & $\implies$ & \red{$33$} \\
+        \red{$33,7$} & $\implies$ & \green{$30$} & $\implies$ & \red{$20$} \\
+        \red{$20,1$} & $\implies$ & \green{$26$} & $\implies$ & \red{$25$} \\
+        \red{$25,8$} & $\implies$ & \green{$22$} & $\implies$ & \red{$28$} \\
+    \end{tabular}
+    \end{center}
+    
+    But with this coloring the rays $\{1,18,28\}$, which form an orthogonal
+    triad, are all red: we have a contradiction, and since the initial assignments where
+    completely general the theorem is proved.
+\end{proof}
+
+Clearly this means that an \HVT{}, that assigns definite values $0$ or $1$ to every
+yes-no test regardless of the context, is fundamentally incompatible with \QM{}.
+In fact every such assignment has to satisfy \eqref{eq:KS_function_prop}, since a
+set of projectors that sums to identity represent a complete test, so the
+assigned values must sum to unity.
+But we have just that proved that this is not possible in general for $d \ge 3$.
+
+Other kinds of proofs exists which relies on general observables (not just
+projectors), like the Peres-Mermin square described in \ref{sec:PM_square}, or
+on inequalities as shown in \ref{sec:YO13}.
+
+\subsection{Experimental Test of KS theorem}
+What we have shown is just that the \QM{} predictions are impossible to reproduce
+with a classically behaving \HVT{}.
+The next obvious step would be to see which way nature prefers by testing it
+experimentally.
+While it is possible to test the Kochen-Specker directly using the proof presented
+in the last section (or other equivalent proofs), this approach is known to be
+problematic.
+
+One of the biggest problem is that every observable must be measured in more
+than one, incompatible contexts. So one could not discard the possibility that
+the results are influenced by the different measurement's procedure.
+The inequalities, described in the next section, offer a better alternative for
+experimental verification.
+
+Another difficulty lies in the precision with which we can measure an
+observable: there is always the chance that our measured observable could
+differ slightly from the one we wanted to measure, this is called the \emph{finite
+precision problem}.
+Since it can be shown that it is possible to approximate a \acron{KS} set of rays with a
+non \acron{KS} one, this is a serious problem in testing the \acron{KS}
+theorem.
+The way out of it is to create new versions of the \acron{KS} theorem
+for imprecisely defined observables, often expressed as the already mentioned
+inequalities.
+
+The impossibility to precisely define an observable leads also to the
+\emph{problem of compatibility}: we cannot assume that the observable are
+compatible anymore, and as we have seen, this is a crucial assumption for
+testing contextuality.
+To deal with this problem, we need to add new terms to the classical bound in
+inequalities, as will be described in the next section.
+
+\section{Non-contextual inequalities}
+In some systems, assuming classical
+behavior implies that certain combinations of correlations between observables
+are bounded by an inequality that is violated \QM{}.
+This suggests another way to prove and to test the fundamental
+incompatibility between \QM{} and non-contextual theories.
+
+The most famous of these inequality is certainly the \emph{Bell theorem}, which
+showed how \QM{} cannot be described by a local \HVT{}.  Since non-locality is a
+particular form of contextuality, the same inequality can be used to settle the
+question of the existence of non-contextual \HVT{}, and is described in section
+\ref{sec:CHSH} (in the form of the \acron{CHSH} inequality).
+%Scrivi nell'introduzione
+
+Anyway, in the more general setting of contextuality we don't necessarily need two
+subsystems or entanglement, as we showed in the KS theorem, a spin-1 system is enough.
+
+It is useful to divide non-contextual inequalities into two classes:
+\begin{itemize}
+    \item \emph{State-dependent}, where the inequality is violated only when the
+        system is in some particular state.
+    \item \emph{State-independent}, where the inequality is always violated
+        regardless of the state of the system.
+\end{itemize}
+Usually state-dependent tests involve less measurements, but obviously need a
+fixed initial state, while state-independent does not.
+
+As in section \ref{sec:joint_prob}, we can associate a graph to every
+non-contextual inequality.
+There are two ways to construct a graph for an inequality test: 
+\begin{itemize}
+    \item The \emph{Compatibility graph} is the graph constructed from the set of observables: in such a
+        graph every observable is represented by a vertex and two vertex are
+        connected if the corresponding observables are compatible.
+    \item The \emph{Exclusivity graph} constructed from the single dichotomous exclusive events,
+        where every vertex represent a yes-no measurement (a projector in the
+        quantum formalism), and edges represent exclusivity (orthogonality in
+        \QM{}).
+\end{itemize}
+
+In the next sections we will describe some of the most common non-contextual
+inequalities.
+
+\subsection{CHSH}
+\label{sec:CHSH}
+This inequality was first devised by Clauser, Horne, Shimony and Holt as an
+alternative to the Bell inequality to test non-locality.
+For this reason the system is composed by two 2-dimensional subsystems
+(normally spin-$\frac{1}{2}$ particles) in
+entanglement, that can be separated by a space-like distance.
+
+The experimenters can measure the spin on their particles in two different directions.
+The chosen observable are:
+\begin{align}
+    A_1 &= \sigma_x \otimes \I &
+        B_1 &= \sigma_z \otimes \I \\
+    A_2 &=  - \I \otimes \frac{\sigma_z + \sigma_x}{\sqrt{2}} 
+        & B_2 &=  \I \otimes \frac{\sigma_z - \sigma_x}{\sqrt{2}} 
+    \label{eq:CHSH_obs}
+\end{align}
+and the corresponding compatibility graph is shown in figure
+\ref{fig:CHSH_obs_graph}.
+
+Since the observables measured can takes only $\pm 1$ values if we suppose a classical,
+non-contextual(or local) behavior we expect:
+\begin{equation}
+    \langle{(A_1 + B_1) A_2 + (B_1 - A_1) B_2}\rangle = 
+    \langle{A_1A_2 + B_1A_2 + B_1B_2 - A_1B_2}\rangle \le 2
+    \label{eq:CHSH_HVT}
+\end{equation}
+
+But if, say, we prepare the system in the entangled state
+\begin{equation}
+    \Ket{\psi} = \frac{\Ket{0}\otimes\Ket{1} -
+    \Ket{1}\otimes\Ket{0}}{\sqrt{2}} 
+    \label{eq:bell_state_psim}
+\end{equation}
+\QM{} predicts:
+\begin{equation}
+    \langle{A_1A_2}\rangle + \langle{B_1A_2}\rangle + \langle{B_1B_2}\rangle
+    - \langle{A_1B_2}\rangle = 2\sqrt{2}
+    \label{eq:CHSH_QM}
+\end{equation}
+so \eqref{eq:CHSH_HVT} is violated by quantum mechanics.
+Notice that for the inequality to be violated the system has to be in a particular entangled
+state, so this is an example of a state-dependent inequality.
+
+We can also write \eqref{eq:CHSH_HVT} using directly probabilities for exclusive events:
+\begin{multline}
+    p(11| A_1 A_2) + p(-1-1| A_1 A_2) +
+    p(11| B_1 B_2) + p(-1-1| B_1 B_2) +\\
+    p(11| B_1 A_2) + p(-1-1| B_1 A_2) +
+    p(-11| A_1 B_2) + p(1-1| A_1 B_2) \le 3
+\end{multline}
+where $p(ab|AB)$ represents the probability of having oucomes $a$ and $b$
+measuring the properties $A$ and $B$.
+The events involved are represented in the exclusivity graph \ref{fig:CHSH_proj_graph}.
+
+It can be shown that in \QM{} the maximum value of this sum is $2+\sqrt{2}$, so
+the inequality is again violated.
+\begin{figure}[h]
+    \begin{subfigure}{.3\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{CHSHog.pdf}
+        \caption{Compatibility graph}
+    \label{fig:CHSH_obs_graph}
+    \end{subfigure}
+    \begin{subfigure}{.7\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{CHSHpg.pdf}
+        \caption{Exclusivity graph}
+    \label{fig:CHSH_proj_graph}
+    \end{subfigure}
+    \caption{Graphs for the \acron{CHSH} inequality}
+    \label{fig:CHSH_graphs}
+\end{figure}
+\subsection{KCBS}
+A more recent example of a state-dependent non-contextual inequality is
+called the \acron{KCBS} inequality, from Klyachko, Can, Binicioglu and Shumovsky.
+
+Here we have a 3-dimensional system (like a spin-1 particle), and five
+dichotomous observables which can take values $\{0,1\}$ and satisfy the
+exclusivity relations shown in figure \ref{fig:KCBS_graph}.
+\begin{figure}[h]
+        \centering
+        \includegraphics[width=0.4\textwidth]{KCBSog.pdf}
+        \caption{Exclusivity graph for the \emph{KCBS} inequality}
+    \label{fig:KCBS_graph}
+\end{figure}
+For example this can be implemented measuring $A_i = 1 - S_i^2$,
+where the $S_i$ are the spin observables for a spin-1 particle in five
+different direction.
+
+Classically, since only 2 observables can be assigned the value
+$1$ to satisfy the exclusivity graph, we have the inequality.
+\begin{equation}
+    \sum_{i=1}^5 a_i \le 2
+    \label{eq:KCBS_HVT_1}
+\end{equation}
+
+This inequality is often presented in another form, using the
+observables $B_i = 2 A_i - 1$ instead that takes the values $\{1,-1\}$, so that
+\eqref{eq:KCBS_HVT_1} becomes:
+\begin{equation}
+    \langle{B_1B_2}\rangle + 
+    \langle{B_2B_3}\rangle + 
+    \langle{B_3B_4}\rangle + 
+    \langle{B_4B_5}\rangle + 
+    \langle{B_5B_1}\rangle \ge - 3 
+    \label{eq:KCBS_HVT_2}
+\end{equation}
+
+In \QM{} the $A_i = \Ket{a_i}\Bra{a_i}$ are projectors in a 3-dimensional
+Hilbert space, with orthogonality relations given by the graph
+\ref{fig:KCBS_graph}.
+For example we can use the rays:
+\begin{align}
+    \Ket{a_1} &= \left(1,0,\sqrt{\cos(\pi/5)}\right) \\
+    \Ket{a_2} &= \left(-\cos(\pi/5),\sin(\pi/5),\sqrt{\cos(\pi/5)}\right)\\ 
+    \Ket{a_3} &=\left(-\cos(\pi/5),-\sin(\pi/5),\sqrt{\cos(\pi/5)}\right)\\
+    \Ket{a_4} &= \left(-\cos(2\pi/5),\sin(2\pi/5),\sqrt{\cos(\pi/5)}\right)\\
+    \Ket{a_4} &=\left(-\cos(2\pi/5),-\sin(2\pi/5),\sqrt{\cos(\pi/5)}\right)\\
+    \label{eq:KCBS_rays}
+\end{align}
+directed along the vertices of a pentagram.
+If we measure them on the state $\Ket{\psi} = (1,0,0)$ we have
+\begin{equation}
+    \sum_{i=1}^5 \left|\Braket{a_i|\psi}\right|^2 = \sqrt{5} > 2
+    \label{eq:KCBS_QM_1}
+\end{equation}
+which correspond to a violation of $5-4\sqrt{5}$ for the inequality
+\eqref{eq:KCBS_HVT_2}.
+\subsection{Peres-Mermin square}
+\label{sec:PM_square}
+This state-independent inequality has its origin in another proof of the
+Kochen-Specker theorem.
+
+Suppose to have a system similar to the one used for the \acron{CHSH}
+inequality: two particles of spin-$\frac{1}{2}$, and consider the
+observables:
+\begin{align}
+    A_{11}&=\I\otimes\sigma_z  &A_{12}&=\sigma_z\otimes\I &A_{13}&=\sigma_z\otimes\sigma_z \\
+    A_{21}&=\sigma_x\otimes\I  &A_{22}&=\I\otimes\sigma_x &A_{23}&=\sigma_x\otimes\sigma_x \\
+    A_{31}&=\sigma_x\otimes\sigma_z  &A_{32}&=\sigma_z\otimes\sigma_x &A_{33}&=\sigma_y\otimes\sigma_y \\
+    \label{eq:PM_square}
+\end{align}
+The last element of every row is the product of the other two, and the same
+is true for the columns, except for the last one since: 
+\begin{equation}
+    (\sigma_z\otimes\sigma_z) (\sigma_x\otimes\sigma_x) = - \sigma_y\otimes\sigma_y
+    \label{eq:PM_lastcol}
+\end{equation}
+
+For this reason a fixed assignment of values $\{1,-1\}$ to every observable in
+\eqref{eq:PM_square} is not possible, and this rules out the possibility of
+having a non-contextual \HVT{} to explain those measures.
+
+This can also be rephrased in the form of an inequality:
+\begin{multline}
+    \langle{A_{11}A_{12}A_{13}}\rangle + 
+    \langle{A_{21}A_{22}A_{23}}\rangle + 
+    \langle{A_{31}A_{32}A_{33}}\rangle +\\ +
+    \langle{A_{11}A_{21}A_{31}}\rangle + 
+    \langle{A_{12}A_{22}A_{32}}\rangle - 
+    \langle{A_{13}A_{23}A_{33}}\rangle \le 4 
+    \label{eq:PM_ineq}
+\end{multline}
+Which holds classically, since the third element in every correlation is the
+product of the other two.
+
+But in \QM{} we have:
+\begin{multline}
+    \langle{A_{11}A_{12}A_{13}}\rangle + 
+    \langle{A_{21}A_{22}A_{23}}\rangle + 
+    \langle{A_{31}A_{32}A_{33}}\rangle +\\ +
+    \langle{A_{11}A_{21}A_{31}}\rangle + 
+    \langle{A_{12}A_{22}A_{32}}\rangle - 
+    \langle{A_{13}A_{23}A_{33}}\rangle = 6 
+\end{multline}
+so the inequality \eqref{eq:PM_ineq} is violated for every state of the system.
+
+\subsection{Yu-Oh's 13 rays inequality(TODO)}
+Todo.
+\label{sec:YO13}
+
+\subsection{Graph theoretical approach (TODO)}
+The \emph{exclusivity} graph is a powerful instrument to
+analyze inequalities.
+In fact from the graph, we can easily deduce if the inequality is
+violated by \QM{}, and how much is the violation, as is shown in the next theorems.
+
+\begin{theorem}
+    Given a graph $G$ associated with a non-contextual inequality $S$, the maximum value
+    attainable by a non-contextual \HVT{} is equivalent to the independence number
+    $\alpha(G)$ of the graph while the maximum for quantum theory is the Lovatzs number
+    $\theta(G)$ of the graph, and
+    \begin{equation}
+        \alpha(G) \le \theta(G)
+    \end{equation}
+    \label{th:nc_graph_indilov}
+\end{theorem}
+\begin{proof}
+    To do.
+\end{proof}
+
+\begin{theorem}
+    The inequality associated with the graph $G$ is violated if and only if $G$
+    contain as a subgraph a cycle of $n\ge5$ or its complement.
+    \label{th:nc_graph_indinum}
+\end{theorem}
+\begin{proof}
+    To do.
+\end{proof}
+\appendix
+\section{Basic notions of graph theory(TODO)}
+Todo
+\label{sec:graph}
+In this small section we define all the terms connected to graph theory used in
+the text.
+\begin{definition}[Graph]
+    A graph is a collection of vertex and edges, where every edge connects two
+    vertex.
+\end{definition}
+Kinds of graphs (cycles, complete graphs, etc\ldots)
+\begin{definition}[Subgraph]
+\end{definition}
+\begin{definition}[Clique]
+\end{definition}
+\begin{definition}[Independence number]
+\end{definition}
+\begin{definition}[Lovatzs number]
+\end{definition}
+\end{document}
