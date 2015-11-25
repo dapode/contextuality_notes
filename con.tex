@@ -41,6 +41,7 @@
 \newcommand{\I}{\mathbf{I}}
 \newcommand{\red}[1]{\textcolor{dred}{#1}}
 \newcommand{\green}[1]{\textcolor{dgreen}{#1}}
+\newcommand{\sdot}{\centerdot}
 
 % Ambienti
 % --------
@@ -84,7 +85,7 @@ If it does we say that the theory is \emph{contextual}.
 
 In quantum theory compatible measurements are represented by commuting operators
 on a Hilbert space $\Hil$. 
-In this section we can limit ourselves to consider only dichotomous
+In this section we can limit ourselves to consider only dichotomic
 measurements, which are represented by projectors in \QM{}.
 Compatible observables in this case are equivalent to orthogonal projectors.
 
@@ -184,19 +185,19 @@ Gleason proved an important theorem that poses a limit to form that the
 distribution of an hypothetical \HVT{} could have.
 
 As we said in quantum theory every yes-no test about a system can be represented by a
-projector $\op P$ in a Hilbert space $\Hil$.
-A \emph{quantum probability distribution} is a function $f(\op P)$ that assign to every
+projector $P$ in a Hilbert space $\Hil$.
+A \emph{quantum probability distribution} is a function $f(P)$ that assign to every
 such projector a value such that:
 \begin{align}
-    &f(\op P) > 0 \\
-    &\sum_i f(\op P_i) = 1 & \text{for every orthogonal base} \quad \{P_i\}
+    &f(P) > 0 \\
+    &\sum_i f(P_i) = 1 & \text{for every orthogonal base} \quad \{P_i\}
     \label{eq:gleason_th_hypotesis}
 \end{align}
 
 What Gleason proved is that every quantum probability distribution $f$ on an Hilbert space
 of dimension greater than three can be written as:
 \begin{equation}
-    f(\op P) = \Tr(\rho \op P)
+    f(\op P) = \Tr(\rho P)
     \label{eq:gleason_prob}
 \end{equation}
 for a suitable positive semi-definite, hermitian operator $\rho$, such that
@@ -211,7 +212,7 @@ quantum probability distribution in an Hilbert space.
 With this theorem is possible to deduce quantum theory from these three
 postulates:
 \begin{enumerate}
-    \item Dichotomous tests are represented by projectors in a Hilbert space.
+    \item dichotomic tests are represented by projectors in a Hilbert space.
     \item Compatible test are represented by commuting projectors.
     \item If $P$ and $Q$ are orthogonal projector then
         \begin{equation}
@@ -223,11 +224,31 @@ postulates:
 For a non-contextual \HVT{} to exist, it has to be possible then to define a function $f(P)$ with values
 $0$ or $1$ for every projector $P$ in $\Hil$.
 Such a function cannot be written in the form \eqref{eq:gleason_prob}, required
-by Gleason theorem for a probability distribution in $\Hil$, so for a \HVT{}, we
+by Gleason theorem for a probability distribution in $\Hil$, so for a \HVT{} we
 are forced to abandon axiom (3).
 %talk about axiom 3
+But axiom (3) is exactly the one that guarantees the no-disturbance
+principle.
+If it wasn't true we could in fact choose four projectors $P,Q,R,S$ such that
+\begin{equation}
+    P+Q = R+S \quad \text{but} \quad 
+        \langle{P}\rangle + \langle{Q}\rangle \neq
+        \langle{R}\rangle + \langle{S}\rangle
+\end{equation}
+We can then choose another projector $T$ such that $P,Q,T$ and $R,S,T$ are
+orthogonal bases, so that they represent a complete test, and it must be true that:
+\begin{align}
+    \langle{T}\rangle &= 1 - \langle{P}\rangle - \langle{Q}\rangle\\
+    \langle{T}\rangle &= 1 - \langle{R}\rangle - \langle{S}\rangle
+    \label{eq:no-dist_violation}
+\end{align}
+but given that $\langle{P}\rangle+\langle{Q}\rangle \neq
+\langle{R}\rangle+\langle{S}\rangle$ the value of $\langle{T}\rangle$ depends on
+the choice of measuring $P$ and $Q$ or $R$ and $S$, thus violating the
+\emph{no-disturbance} principle.
 
 \subsection{Kochen-Specker theorem}
+\label{sec:KS_theorem}
 This fundamental incompatibility is better expressed by the Kochen-Specker
 theorem.
 
@@ -380,7 +401,7 @@ There are two ways to construct a graph for an inequality test:
     \item The \emph{Compatibility graph} is the graph constructed from the set of observables: in such a
         graph every observable is represented by a vertex and two vertex are
         connected if the corresponding observables are compatible.
-    \item The \emph{Exclusivity graph} constructed from the single dichotomous exclusive events,
+    \item The \emph{Exclusivity graph} constructed from the single dichotomic exclusive events,
         where every vertex represent a yes-no measurement (a projector in the
         quantum formalism), and edges represent exclusivity (orthogonality in
         \QM{}).
@@ -466,8 +487,7 @@ the inequality is again violated.
 A more recent example of a state-dependent non-contextual inequality is
 called the \acron{KCBS} inequality, from Klyachko, Can, Binicioglu and Shumovsky.
 
-Here we have a 3-dimensional system (like a spin-1 particle), and five
-dichotomous observables which can take values $\{0,1\}$ and satisfy the
+Here we have five dichotomic observables which can take values $\{0,1\}$ that satisfy the
 exclusivity relations shown in figure \ref{fig:KCBS_graph}.
 \begin{figure}[h]
         \centering
@@ -475,9 +495,6 @@ exclusivity relations shown in figure \ref{fig:KCBS_graph}.
         \caption{Exclusivity graph for the \emph{KCBS} inequality}
     \label{fig:KCBS_graph}
 \end{figure}
-For example this can be implemented measuring $A_i = 1 - S_i^2$,
-where the $S_i$ are the spin observables for a spin-1 particle in five
-different direction.
 
 Classically, since only 2 observables can be assigned the value
 $1$ to satisfy the exclusivity graph, we have the inequality.
@@ -501,6 +518,9 @@ observables $B_i = 2 A_i - 1$ instead that takes the values $\{1,-1\}$, so that
 In \QM{} the $A_i = \Ket{a_i}\Bra{a_i}$ are projectors in a 3-dimensional
 Hilbert space, with orthogonality relations given by the graph
 \ref{fig:KCBS_graph}.
+This can be implemented measuring $A_i = 1 - S_i^2$,
+where the $S_i$ are the spin observables for a spin-1 particle in five
+different direction.
 For example we can use the rays:
 \begin{align}
     \Ket{a_1} &= \left(1,0,\sqrt{\cos(\pi/5)}\right) \\
@@ -510,7 +530,13 @@ For example we can use the rays:
     \Ket{a_4} &=\left(-\cos(2\pi/5),-\sin(2\pi/5),\sqrt{\cos(\pi/5)}\right)\\
     \label{eq:KCBS_rays}
 \end{align}
-directed along the vertices of a pentagram.
+directed along the vertices of a pentagram as in figure \ref{fig:KCBS_pent}.
+\begin{figure}[h]
+    \centering
+    \includegraphics[width=.7\textwidth]{KCBS_pent.pdf}
+    \caption{Rays corresponding to the projectors $A_1,\ldots,A_5$ }
+    \label{fig:KCBS_pent}
+\end{figure}
 If we measure them on the state $\Ket{\psi} = (1,0,0)$ we have
 \begin{equation}
     \sum_{i=1}^5 \left|\Braket{a_i|\psi}\right|^2 = \sqrt{5} > 2
@@ -567,20 +593,107 @@ But in \QM{} we have:
 \end{multline}
 so the inequality \eqref{eq:PM_ineq} is violated for every state of the system.
 
-\subsection{Yu-Oh's 13 rays inequality(TODO)}
-Todo.
+\subsection{Yu-Oh's 13 rays inequality}
 \label{sec:YO13}
+The proofs of the Kochen-Specker theorem we have seen are all based on the
+impossibility of assigning definite value to a groups of observable.
 
-\subsection{Graph theoretical approach (TODO)}
+This proof involves instead a set of 13 rays, where KS-type assignments are
+possible, but every such assignment satisfy an inequality violated by \QM{}.
+
+The rays used in the proof are:
+\begin{align}
+    a_1 &= (1,0,0) &a_2 &= (0,1,0) &a_3 &= (0,0,1) && \\
+    b_1 &= (0,1,1) &b_2 &= (1,0,1) &b_3 &= (1,1,0) &&\\
+    c_1 &= (0,1,-1) &c_2 &= (1,0,-1) &c_3 &= (1,-1,0) &&\\
+    d_1 &= (-1,1,1) &d_2 &= (1,-1,1) &d_3 &= (1,1,-1) &d_4 &= (1,1,1)\\
+    \label{eq:YO13_rays}
+\end{align}
+and they satisfy the exclusivity conditions showed in the graph in figure
+\ref{fig:YO13_graph}.
+\begin{figure}[h]
+    \centering
+    \includegraphics[width=0.6\textwidth]{YO13pg.pdf}
+    \caption{Exclusivity graph for the 13 rays}
+    \label{fig:YO13_graph}
+\end{figure}
+
+If we try to assign values $\{0,1\}$ to these rays we notice that only one of
+the rays $d_i$ can be assigned the value $1$.
+
+\begin{proof}
+Like we did in section \ref{sec:KS_theorem}, let's use the colours green and
+red instead the values $1$ and $0$ respectively.
+We first show that if $d_4$ is green, none of the other $d_i$ can be green.
+
+If for instance $d_4$ and $d_1$ are green then $b_3,c_3$ and $b_2,c_2$
+must be red, which means that $a_2$ and $a_3$ have to be green but this is not
+allowed. The same is true for $d_2$ and $d_3$.
+
+Moreover only one between $d_1,d_2,d_3$ can be green at once, for example if $d_1$ and
+$d_2$ were both green, then $b_1,c_1$ and $b_2,c_2$ have to be red which means
+that $a_1$ and $a_2$ must be green and this is again not possible.
+For symmetry reason, the same is true for $d_2,d_3$ and $d_1,d_3$, so we must
+conclude that only one between $\{d_1,d_2,d_3,d_4\}$ can be green in every
+assignment.
+\end{proof}
+
+From this we have that every non-contextual \HVT{} must obey the inequality
+\begin{equation}
+    \sum_{i=1}^4 \langle{d_i}\rangle \le 1
+    \label{eq:YO13_HVT}
+\end{equation}
+In \QM{} instead we have:
+\begin{equation}
+    \sum_{i=1}^4 d_i = \frac{4}{3}\I \quad \implies \quad
+    \sum_{i=1}^4 \langle{d_i}\rangle = \frac{4}{3} 
+    \label{eq:YO13_QM}
+\end{equation}
+and no non-contextual \HVT{} can reproduce this result.
+
+If we use the observable $A_i = 2\I - P_i$, where $P_i$ are the
+projectors associated with the rays \eqref{eq:YO13_rays}, that takes the values
+$\{1,-1\}$, we can write the inequality
+\begin{equation}
+    \sum_i \langle{A_i}\rangle - \frac{1}{4} \sum_{(i,j)} \langle{A_i A_j}\rangle \le 8
+    \label{eq:YO13_HVT2}
+\end{equation}
+where the sum in the second term is extended only to $i,j$ connected by an edge
+in the graph \ref{fig:YO13_graph}.
+As it can easily be proved in \QM{} we have:
+\begin{equation}
+    \sum_i A_i - \frac{1}{4} \sum_{(i,j)} A_i A_j = \frac{25}{3} \I
+    \label{eq:YO13_QM2}
+\end{equation}
+so the inequality \eqref{eq:YO13_HVT2} is violated for every state.
+
+\subsection{Graph theoretical approach}
 The \emph{exclusivity} graph is a powerful instrument to
 analyze inequalities.
 In fact from the graph, we can easily deduce if the inequality is
-violated by \QM{}, and how much is the violation, as is shown in the next theorems.
+violated by \QM{}, and how much is the violation.
+
+As we did in section \ref{sec:CHSH} for the \acron{CHSH} inequality, every
+non-contextual inequality can be expressed as a positive linear combination of
+probabilities:
+\begin{equation}
+    A = \sum_i w_i P_i
+    \label{eq:prob_ncineq}
+\end{equation}
+
+To every such a linear combination we can associate an exclusivity graph as
+described at the beginning of this section\footnote{The graph is
+weighted if the coefficients $w_i \neq 1$, the following theorems are valid
+also in this case.}, where now the dichotomic observable $A_i$ that takes
+values $\{0,1\}$, is the one associated with the $i$th event, so that
+$\langle{A_i}\rangle = P_i$. % spiega meglio
+Once we construct this graph we can derive the inequality and its violation in
+\QM{} (if present) using the following theorems.
 
 \begin{theorem}
-    Given a graph $G$ associated with a non-contextual inequality $S$, the maximum value
+    Given a graph $G$ associated with a non-contextual inequality $A$, the maximum value
     attainable by a non-contextual \HVT{} is equivalent to the independence number
-    $\alpha(G)$ of the graph while the maximum for quantum theory is the Lovatzs number
+    $\alpha(G)$ of the graph while the maximum for quantum theory is the Lovàsz number
     $\theta(G)$ of the graph, and
     \begin{equation}
         \alpha(G) \le \theta(G)
@@ -588,34 +701,151 @@ violated by \QM{}, and how much is the violation, as is shown in the next theore
     \label{th:nc_graph_indilov}
 \end{theorem}
 \begin{proof}
-    To do.
+    In a non-contextual \HVT{}, being deterministic, each events has probability
+    $0$ or $1$.
+    The maximum of $A$ is attained when the value $1$ is assigned to the maximum
+    possible number of events, $A$ in this case corresponds to the cardinality
+    of the largest set of independent vertices, that is \emph{independence
+    number} $\alpha(G)$ of the graph.
+
+    In \QM{} every event corresponds to a unitary ray in a given Hilbert space,
+    and connected vertices correspond to orthogonal rays, this is exactly an
+    \emph{orthonormal representation} of the graph $G$.
+    Since the probabilities are $P_i = \abs{\braket{a_i | \psi}}$ for a
+    given $\Ket{\psi}$, the maximum of $A$ is clearly given by the
+    \emph{Lovàsz number} of the graph $G$ as defined in
+    \eqref{eq:Lovasz_theta}.
+
+    The inequality follows directly by the Lovàsz's sandwich theorem
+    \ref{th:sandwich}.
 \end{proof}
+Notice that $\alpha(G)$ is only an upper bound for the maximum value attainable
+for a non-contextual \HVT{}, since it does not impose the condition that in every
+complete test the probabilities sums to $1$.
+For example for the graph in figure \ref{fig:YO13_graph} the independence number
+is $\alpha(G) = 5$, but every independent set with that number of vertices is one
+in which all the vertices $d_i$ are included (i.e. have value $1$) which as we
+said is impossible, at least when is implemented in dimension $d=3$.
 
 \begin{theorem}
     The inequality associated with the graph $G$ is violated if and only if $G$
-    contain as a subgraph a cycle of $n\ge5$ or its complement.
+    contain as a subgraph a cycle graph $C_n$ of $n\ge5$ or its complement.
     \label{th:nc_graph_indinum}
 \end{theorem}
 \begin{proof}
-    To do.
+    Indeed if the graph have got no such odd cycles or their complement then is
+    perfect, by the strong perfect graph theorem \ref{th:strong_perfect_graph}.
+    In this case we have
+    \begin{equation}
+        \alpha(G) = \omega(\bar G) = \chi(\bar G)
+    \end{equation}
+    so for the sandwich theorem \ref{th:sandwich}
+    \begin{equation}
+        \alpha(G) = \theta(G)
+    \end{equation}
+    and we have no violation.
 \end{proof}
 \appendix
-\section{Basic notions of graph theory(TODO)}
-Todo
+\section{Basic glossary of graph theory}
 \label{sec:graph}
 In this small section we define all the terms connected to graph theory used in
 the text.
 \begin{definition}[Graph]
-    A graph is a collection of vertex and edges, where every edge connects two
-    vertex.
+    A graph $G(V,E)$ is a collection of elements called \emph{vertices} $v\in
+    V$, and \emph{edges} $e\in E$, where every edge is associated with two
+    vertex, which are said to be \emph{connected} by the edge.
 \end{definition}
-Kinds of graphs (cycles, complete graphs, etc\ldots)
+A graph is usually represented as a series of dots, that represent vertices,
+connected by lines, that represent edges.
+
+A graph is called \emph{complete} when every vertex is connected to every other vertex
+in the graph.
+
+\begin{definition}[Cycle graph]
+    A cycle graph $C_n$ is a graph with $n$ vertices joint by edges that form a single closed path.
+    So if $V = \{v_1,\ldots,v_n\}$ are the vertices of $C_n$, the edges are
+    \begin{equation}
+        E = \{(v_1,v_2),(v_2,v_3),\ldots,(v_n,v_1)\}
+        \label{eq:cycle_edges}
+    \end{equation}
+\end{definition}
+For example the graph in figure \ref{fig:KCBS_graph} is the cycle graph with
+$5$ vertex $C_5$.
+
 \begin{definition}[Subgraph]
+    A subgraph $S(U,F)$ of a graph $G(V,E)$ is a graph that contains a subset of vertex
+    and edges, $U V$ $F E$ of $G$. An \emph{induced} subgraph of $G$ is a graph that contains
+    a subset of vertex of $G$ and only the edges that join those vertex.
 \end{definition}
-\begin{definition}[Clique]
+
+A complete subgraph of a graph is called a \emph{clique}.
+The number of vertices that constitutes the largest clique in a graph $G$ is
+called the \emph{clique number} $\omega(G)$ of the graph.
+
+\begin{definition}[Complementary graph]
+    The \emph{complementary graph} $\bar G$ of a graph $G$ is a graph with the same
+    vertices as $G$ in which every vertex $v_i$ is connected to $v_j$ if and
+    only if $v_i$ is \emph{not} connected to $v_j$ in $G$.
 \end{definition}
-\begin{definition}[Independence number]
+For example the complementary graph of a complete graph is a null graph (a graph
+with no edges).
+
+\begin{definition}[Independence set]
+    An \emph{independent set} is a set of vertex not connected by any edge.
+    The number of vertex contained in the largest independent set of a graph is called the
+    \emph{independence number} $\alpha(G)$ of the graph.
 \end{definition}
-\begin{definition}[Lovatzs number]
+Clearly the clique number of a graph is the independence number of the
+complementary graph:
+\begin{equation}
+    \omega(G) = \alpha(\bar G)    
+\end{equation}
+
+A vertex coloring of a graph is a way of assigning labels (or ``colors'') to the vertices of a
+graph such that no two adjacent vertices has the same one.
+\begin{definition}[Chromatic number]
+    The minimum number of color needed for a vertex coloring of a graph
+    $G$ is called the \emph{chromatic number} $\chi(G)$ of the graph.
 \end{definition}
+A graph $G$ where
+\begin{equation}
+    \omega(G) = \chi(G)
+\end{equation}
+for every induced subgraph is called a \emph{perfect graph}
+\begin{theorem}[Strong perfect graph theorem]
+    A graph is perfect if and only if it does not contain odd cycles $C_n$ with
+    $n\ge5$ or their complements as induced subgraphs
+    \label{th:strong_perfect_graph}
+\end{theorem}
+
+\begin{definition}[Orthogonal representation]
+    An \emph{orthogonal representation} of a graph $G(V,E)$ assigns to every vertex
+    $v_i\in V$ a vector $u_i \in \Real^d$ such that $u_i \sdot u_j = 0$ when
+    $v_ii$ and $v_j$ are connected.
+\end{definition}
+If the vectors $u_i$ are also of unit length the representation is called
+\emph{orthonormal}.
+
+The above definition does not require to assign different vertices to different
+vectors, an orthogonal representation with that property is said to be
+\emph{faithful}.
+
+\begin{definition}[Lovàsz number]
+    Given a graph $G(V,E)$ the \emph{Lovàsz number} is defined as
+    \begin{equation}
+        \theta(G) = \max \sum_{v_i \in V} \abs{h \sdot u_i}^2
+        \label{eq:Lovasz_theta}
+    \end{equation}
+    where the maximum is taken over all the orthonormal representations of
+    $G$ with vectors $u_i$, and all the vectors $h \in \Real^d$.
+\end{definition}
+\begin{theorem}[Lovàsz's sandwich theorem]
+    The Lovàsz number always lies between the independence number $\alpha(G)$
+    and the chromatic number of the complementary graph $\chi(\bar G)$
+    \begin{equation}
+        \alpha(G) \le \theta(G) \le \chi(\bar G) 
+        \label{eq:sandwich_theorem}
+    \end{equation}
+    \label{th:sandwich}
+\end{theorem}
 \end{document}
