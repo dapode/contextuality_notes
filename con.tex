@@ -42,6 +42,8 @@
 \newcommand{\red}[1]{\textcolor{dred}{#1}}
 \newcommand{\green}[1]{\textcolor{dgreen}{#1}}
 \newcommand{\sdot}{\centerdot}
+\newcommand{\qE}{\mathcal{E}}
+\newcommand{\adj}{\dagger}
 
 % Ambienti
 % --------
@@ -335,6 +337,7 @@ projectors), like the Peres-Mermin square described in \ref{sec:PM_square}, or
 on inequalities as shown in \ref{sec:YO13}.
 
 \subsection{Experimental Test of KS theorem}
+\label{sec:exp_KS}
 What we have shown is just that the \QM{} predictions are impossible to reproduce
 with a classically behaving \HVT{}.
 The next obvious step would be to see which way nature prefers by testing it
@@ -365,7 +368,7 @@ The impossibility to precisely define an observable leads also to the
 compatible anymore, and as we have seen, this is a crucial assumption for
 testing contextuality.
 To deal with this problem, we need to add new terms to the classical bound in
-inequalities, as will be described in the next section.
+inequalities, as will be described in the section \ref{sec:noise}.
 
 \section{Non-contextual inequalities}
 In some systems, assuming classical
@@ -723,9 +726,13 @@ Notice that $\alpha(G)$ is only an upper bound for the maximum value attainable
 for a non-contextual \HVT{}, since it does not impose the condition that in every
 complete test the probabilities sums to $1$.
 For example for the graph in figure \ref{fig:YO13_graph} the independence number
-is $\alpha(G) = 5$, but every independent set with that number of vertices is one
-in which all the vertices $d_i$ are included (i.e. have value $1$) which as we
+is $\alpha(G) = 5$, but in every independent set with that number of vertices
+all the $d_i$ are included (i.e. have value $1$) which as we
 said is impossible, at least when is implemented in dimension $d=3$.
+
+What we are looking for in that case is the cardinality $\beta_d$ of the largest
+independent set that has a vertex in every d-clique, this number is always
+$\beta_d \le \alpha(G)$, in the previous case for example is $4$.
 
 \begin{theorem}
     The inequality associated with the graph $G$ is violated if and only if $G$
@@ -745,6 +752,115 @@ said is impossible, at least when is implemented in dimension $d=3$.
     \end{equation}
     and we have no violation.
 \end{proof}
+
+\section{Noise in non-contextual tests}
+\label{sec:noise} 
+
+\subsection{Correction terms in inequalities}
+As we already said in section \ref{sec:exp_KS} compatibility of observable
+cannot be assured in an experimental test.
+This and other effects have to be considered in a test of quantum contextuality.
+
+As before, consider a system on which we can perform measurements
+$\{A_1,\ldots,A_n\}$, that are not all compatible.
+We want to consider the results of the disturbance that theoretically
+compatible measurements have on one another.
+Let's call
+\begin{equation}
+    P\left(x_1 x_2\cdots x_n | A_{k_1}^1 A_{k_2}^2\cdots
+    A_{k_m}^m\right)
+\end{equation}
+the probability that the sequence of measurements $A_{k_1} A_{k_2}\cdots
+A_{k_m}$ gives outcomes $x_1 x_2\cdots x_m$, where the upper indices are used to
+distinguish observables in different positions of the sequence.
+
+The probability $p_f(AB)$ that a measure $A$ could disturb the outcome of $B$
+then can be expressed as:
+\begin{equation}
+    p_f(AB) = \sum_{a=0,1} \left[P\left((1|B^1) \cap
+    (a0|A^1 B^2)\right) 
+    + P\left((0|B^1) \cap (a1|A^1 B^2)\right)\right]
+\end{equation}
+but those probabilities are not accessible by experiment.
+Instead what we can measure is the probability
+\begin{equation}
+    p_E (BAB) = \sum_{a=0,1}
+    \left[P\left(0a1|B^1A^2B^3\right)+P\left(1a0|B^1A^2B^3\right)\right]
+\end{equation}
+and if we assume that additional measurements can only increase the disturbance
+of a system, we have $p_f(AB) \le p_E (BAB)$, since the probability of a flip
+cannot decrease with the addition of the first measurement of $B$.
+From this considerations follows that:
+\begin{equation}
+    P\left(ab|A^1B^2\right) \le P(ab|AB) + p_f(AB) \le P(ab|AB) + p_E(BAB) 
+    \label{eq:prob_noncomp}
+\end{equation}
+
+For example the \acron{CHSH} inequality becomes:
+\begin{multline}
+    P(++| A_1^1 A_2^2) + P(--| A_1^1 A_2^2) +
+    P(++| B_1^1 B_2^2) + P(--| B_1^1 B_2^2) +\\
+    P(++| B_1^1 A_2^2) + P(--| B_1^1 A_2^2) +
+    P(-+| A_1^1 B_2^2) + P(+-| A_1^1 B_2^2) \le \\
+    \le 3 + 2 p_E(A_2A_1A_2) + 2p_E(B_2B_1B_2) +
+    +2 p_E(A_2B_1A_2) + 2 p_E(A_1B_2A_1)
+\end{multline}
+If we consider instead $\{+1,-1\}$ observables the correlation
+$\langle{A^1B^2}\rangle$ is bounded by
+\begin{equation}
+    \langle{AB}\rangle \le \langle{A^1B^2}\rangle + p_f(AB) \le
+    \langle{A^1B^2}\rangle +  p_E(BAB)
+\end{equation}
+in this case the \acron{CHSH} becomes
+\begin{multline}
+    \langle{A_1A_2 + B_1A_2 + B_1B_2 - A_1B_2}\rangle \le 
+    2 +  p_E(A_2A_1A_2) +\\ 
+    + p_E(A_2B_1A_2) +  p_E(B_2B_1B_2) + p_E(B_2A_1B_2)
+\end{multline}
+
+\subsection{Noisy quantum measurements}
+To model more accurately the disturbance given by imperfect compatibility
+we can think of the system as going through a noisy channel between every
+measurements.
+Quantum mechanically this is represented by a (non unitary) \emph{quantum
+operation} $\qE(\rho)$ acting on the density matrix $\rho$ of the system, which
+for example can be expressed in the \emph{operator sum} representation as
+\begin{equation}
+    \rho' = \sum_i E_i^\adj \rho E_i
+    \label{eq:kraus_evolution}
+\end{equation}
+where $E_i$ are the \emph{Kraus operators} associated with $\qE$.
+\footnote{Check Nielsen Chuang, \emph{Quantum computation and quantum
+information}.}
+
+Let's again consider two $\{+1,-1\}$ dichotomic observables $A$ and $B$.
+The quantum state after the measure of $A$ will be
+\begin{equation}
+    \rho_A^+ = \frac{P_A^+\rho P_A^+}{\Tr\left( P_A^+\rho \right)} 
+    \quad \text{or} \quad
+    \rho_A^- = \frac{P_A^-\rho P_A^-}{\Tr\left( P_A^-\rho \right)}
+    \label{eq:projective_measure_A}
+\end{equation}
+with probability $P(+|A) = \Tr\left( P_A^+ \rho \right)$ or $P(-|A) = \Tr\left(
+P_A^- \rho \right)$ respectively.
+
+Applying the noise and measuring $B$ after this first measurement we have that
+the probability of having $B=\pm 1$ is
+\begin{equation}
+    P(+\pm|AB) = \Tr\left( P_B^\pm \qE\left(P_A^+\rho P_A^+\right) \right)
+    \quad \text{or} \quad
+    P(-\pm|AB) = \Tr\left( P_B^\pm \qE\left(P_A^-\rho P_A^-\right) \right)
+\end{equation}
+so the correlation becomes
+\begin{multline}
+    \langle{AB}\rangle = P(++|AB) + P(--|AB) + P(+-|AB) + P(-+|AB) =\\
+    = \Tr\left( P_B^+ \qE\left(P_A^+\rho P_A^+ - P_A^-\rho P_A^-\right) +
+        P_B^- \qE\left(P_A^-\rho P_A^- - P_A^+\rho P_A^+\right)
+    \right)
+\end{multline}
+Similarly we can calculate the effect of the noise in a sequence of more
+measurements. 
+
 \appendix
 \section{Basic glossary of graph theory}
 \label{sec:graph}
@@ -848,4 +964,15 @@ vectors, an orthogonal representation with that property is said to be
     \end{equation}
     \label{th:sandwich}
 \end{theorem}
+
+%\section{Noise in quantum systems}
+
 \end{document}
+
+\begin{equation}
+    p_f(AB) = 
+      P\left(\left[1|B^1\right] \cap \left[00|A^1 B^2\right]\right) 
+    + P\left(\left[1|B^1\right] \cap \left[10|A^1 B^2\right]\right) 
+    + P\left(\left[0|B^1\right] \cap \left[a1|A^1 B^2\right]\right)
+    + P\left(\left[0|B^1\right] \cap \left[a1|A^1 B^2\right]\right)
+\end{equation}
