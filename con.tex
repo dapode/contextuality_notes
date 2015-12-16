@@ -44,6 +44,7 @@
 \newcommand{\sdot}{\centerdot}
 \newcommand{\qE}{\mathcal{E}}
 \newcommand{\adj}{\dagger}
+\newcommand{\et}{\wedge}
 
 % Ambienti
 % --------
@@ -73,27 +74,61 @@
 \section{Introduction}
 To do.
 \section{Fundamentals}
-Suppose we can perform on a system measurements of some observables $A_1, A_2,\ldots, A_n$,
-whose outcomes are designated by $a_1, a_2, \ldots, a_n$, and suppose that not all of these
-observables can be measured at once without disturbing the system.
-We call the properties that can be measured together \emph{compatible}, and
-\emph{non compatible} the ones that cannot.
+\subsection{Compatibility}
+Suppose we can perform on a system a measurements of some observables $A, B, C, \ldots$,
+whose outcomes will be designated by $a, b, c, \ldots$, and suppose that not all of these
+observables can be measured together without disturbance.
+This means that if two observables $A$ and $B$ are measured together, the result of the
+measurement of $A$, can be different when it is measured before or after $B$.
+If instead two observables consistently give the same results when measured
+together, they are called \emph{compatible}.
 
-We then define as the \emph{context} of the measurement of $A_i$ the other
-\emph{compatible} properties that are measured together with it.
-A theory is said to be \emph{non contextual} if the predicted outcome $a_i$ of some observable
-$A_i$ does not depend on the context.
-If it does we say that the theory is \emph{contextual}.
+More formally, consider two observables $A$ and $B$, and call\\
+$S_{AB}=\{A,B,AA,AB,BA,BB,AAA,AAB,ABA,\ldots\}$ the set of all their possible
+sequences of measurement. 
+Then for every sequence $s \in S_{AB}$, let's denote with $a_i^s,b_i^s$ the
+results of the measures of $A,B$ when they are in the $i$th position of the
+sequence $s$. 
+\begin{definition}[Compatibility]
+    Two observable $A$ and $B$ are \emph{compatible} if we have $a_i^s=a_j^r$
+    and $b_i^s=b_j^r$ for all $s,r \in S_{AB}$ and for every position $i$ in $s$
+    and $j$ in $r$.
+    \label{def:compatibility1}
+\end{definition}
+
+Unfortunately the definition \ref{def:compatibility1} is not experimentally testable:
+we can surely test if the values of $a_i^s$ and $b_i^s$ are the same for every
+$i$ in one sequence, but we can't say anything for different sequences.
+A weaker, but testable, definition is the following:
+\begin{definition}
+    Two observable $A$ and $B$ are called \emph{compatible} if these two conditions are
+    satisfied:
+    \begin{enumerate}
+        \item For every $s \in S_{AB}$ we have $a_i^s=a_j^s$ and $b_i^s=b_j^s$
+            for every position $i,j$ of $s$.
+        \item For a given state preparation, the average values
+            $\langle{a_i}\rangle_s$ and $\langle{b_i}\rangle_s$ are the same for
+            all $s \in S_{AB}$ and for all positions $i$ of $s$.
+    \end{enumerate}
+    \label{def:compatibility2}
+\end{definition}
+
+\subsection{Contextuality}
+We call the \emph{context} of a measurement of an observable $A$ the set of \emph{compatible}
+observables that are measured together with it.
+A theory is said to be \emph{non contextual} if the predicted outcome $a$ of some observable
+$A$ does not depend on the context.
+If it does, we say that the theory is \emph{contextual}.
 
 In quantum theory compatible measurements are represented by commuting operators
-on a Hilbert space $\Hil$. 
-In this section we can limit ourselves to consider only dichotomic
-measurements, which are represented by projectors in \QM{}.
+on a Hilbert space $\Hil$.
+Without loss of generality, we can limit ourselves to consider only dichotomic
+measurements, which can be represented by projectors in \QM{}.
 Compatible observables in this case are equivalent to orthogonal projectors.
 
 In \QM{} contextuality is said to be \emph{not explicit}. This means that the outcome of a measure of an
 observable $A_i$ may depend on the context, but the probability for that single
-observable $p(A_i = a_i)$, does not.
+observable $P(A = a)$, does not.
 This is also called the \emph{no-disturbance} or \emph{no-signaling} principle.
 
 Nonetheless, as we will show in this section, a non-contextual \HVT{} (hidden
@@ -368,7 +403,7 @@ The impossibility to precisely define an observable leads also to the
 compatible anymore, and as we have seen, this is a crucial assumption for
 testing contextuality.
 To deal with this problem, we need to add new terms to the classical bound in
-inequalities, as will be described in the section \ref{sec:noise}.
+inequalities, as will be described in the section \ref{sec:nc_tests}.
 
 \section{Non-contextual inequalities}
 In some systems, assuming classical
@@ -424,10 +459,10 @@ entanglement, that can be separated by a space-like distance.
 The experimenters can measure the spin on their particles in two different directions.
 The chosen observable are:
 \begin{align}
-    A_1 &= \sigma_x \otimes \I &
-        B_1 &= \sigma_z \otimes \I \\
-    A_2 &=  - \I \otimes \frac{\sigma_z + \sigma_x}{\sqrt{2}} 
-        & B_2 &=  \I \otimes \frac{\sigma_z - \sigma_x}{\sqrt{2}} 
+    X &= \sigma_x \otimes \I &
+        Z &= \sigma_z \otimes \I \\
+    A &=  - \I \otimes \frac{\sigma_z + \sigma_x}{\sqrt{2}} 
+        & B &=  \I \otimes \frac{\sigma_z - \sigma_x}{\sqrt{2}} 
     \label{eq:CHSH_obs}
 \end{align}
 and the corresponding compatibility graph is shown in figure
@@ -436,8 +471,8 @@ and the corresponding compatibility graph is shown in figure
 Since the observables measured can takes only $\pm 1$ values if we suppose a classical,
 non-contextual(or local) behavior we expect:
 \begin{equation}
-    \langle{(A_1 + B_1) A_2 + (B_1 - A_1) B_2}\rangle = 
-    \langle{A_1A_2 + B_1A_2 + B_1B_2 - A_1B_2}\rangle \le 2
+    \langle{(X + Z) A + (Z - X) B}\rangle = 
+    \langle{XA + ZA + ZB - XB}\rangle \le 2
     \label{eq:CHSH_HVT}
 \end{equation}
 
@@ -449,8 +484,8 @@ But if, say, we prepare the system in the entangled state
 \end{equation}
 \QM{} predicts:
 \begin{equation}
-    \langle{A_1A_2}\rangle + \langle{B_1A_2}\rangle + \langle{B_1B_2}\rangle
-    - \langle{A_1B_2}\rangle = 2\sqrt{2}
+    \langle{XA}\rangle + \langle{ZA}\rangle + \langle{ZB}\rangle
+    - \langle{XB}\rangle = 2\sqrt{2}
     \label{eq:CHSH_QM}
 \end{equation}
 so \eqref{eq:CHSH_HVT} is violated by quantum mechanics.
@@ -459,10 +494,10 @@ state, so this is an example of a state-dependent inequality.
 
 We can also write \eqref{eq:CHSH_HVT} using directly probabilities for exclusive events:
 \begin{multline}
-    p(11| A_1 A_2) + p(-1-1| A_1 A_2) +
-    p(11| B_1 B_2) + p(-1-1| B_1 B_2) +\\
-    p(11| B_1 A_2) + p(-1-1| B_1 A_2) +
-    p(-11| A_1 B_2) + p(1-1| A_1 B_2) \le 3
+    p(11| X A) + p(-1-1| X A) +
+    p(11| Z B) + p(-1-1| Z B) +\\
+    p(11| Z A) + p(-1-1| Z A) +
+    p(-11| X B) + p(1-1| X B) \le 3
 \end{multline}
 where $p(ab|AB)$ represents the probability of having oucomes $a$ and $b$
 measuring the properties $A$ and $B$.
@@ -521,8 +556,8 @@ observables $B_i = 2 A_i - 1$ instead that takes the values $\{1,-1\}$, so that
 In \QM{} the $A_i = \Ket{a_i}\Bra{a_i}$ are projectors in a 3-dimensional
 Hilbert space, with orthogonality relations given by the graph
 \ref{fig:KCBS_graph}.
-This can be implemented measuring $A_i = 1 - S_i^2$,
-where the $S_i$ are the spin observables for a spin-1 particle in five
+The inequality \eqref{eq:KCBS_HVT_2} can be implemented measuring $B_i = 1 -
+S_i^2$, where the $S_i$ are the spin observables for a spin-1 particle in five
 different direction.
 For example we can use the rays:
 \begin{align}
@@ -722,6 +757,7 @@ Once we construct this graph we can derive the inequality and its violation in
     The inequality follows directly by the Lovàsz's sandwich theorem
     \ref{th:sandwich}.
 \end{proof}
+
 Notice that $\alpha(G)$ is only an upper bound for the maximum value attainable
 for a non-contextual \HVT{}, since it does not impose the condition that in every
 complete test the probabilities sums to $1$.
@@ -729,10 +765,13 @@ For example for the graph in figure \ref{fig:YO13_graph} the independence number
 is $\alpha(G) = 5$, but in every independent set with that number of vertices
 all the $d_i$ are included (i.e. have value $1$) which as we
 said is impossible, at least when is implemented in dimension $d=3$.
-
-What we are looking for in that case is the cardinality $\beta_d$ of the largest
-independent set that has a vertex in every d-clique, this number is always
-$\beta_d \le \alpha(G)$, in the previous case for example is $4$.
+To avoid this we can give a different weight, $w=2$ to vertices $a_i,b_i, c_i$
+so that the independence number becomes $\alpha(G) = 7$ reached with an 
+independent set with one vertex in every 3-clique, and the Lovasz number
+$\theta(G)= $.
+%What we are looking for in that case is the cardinality $\beta_d$ of the largest
+%independent set that has a vertex in every d-clique, this number is always
+%$\beta_d \le \alpha(G)$, in the previous case for example is $4$.
 
 \begin{theorem}
     The inequality associated with the graph $G$ is violated if and only if $G$
@@ -753,8 +792,8 @@ $\beta_d \le \alpha(G)$, in the previous case for example is $4$.
     and we have no violation.
 \end{proof}
 
-\section{Noise in non-contextual tests}
-\label{sec:noise} 
+\section{Problems in non-contextual tests}
+\label{sec:nc_tests} 
 
 \subsection{Correction terms in inequalities}
 As we already said in section \ref{sec:exp_KS} compatibility of observable
@@ -762,69 +801,129 @@ cannot be assured in an experimental test.
 This and other effects have to be considered in a test of quantum contextuality.
 
 As before, consider a system on which we can perform measurements
-$\{A_1,\ldots,A_n\}$, that are not all compatible.
+of dichotomic $\pm1$ observables $\{A,B,C\ldots\}$, that are not all compatible.
 We want to consider the results of the disturbance that theoretically
 compatible measurements have on one another.
 Let's call
 \begin{equation}
-    P\left(x_1 x_2\cdots x_n | A_{k_1}^1 A_{k_2}^2\cdots
-    A_{k_m}^m\right)
+    P\left(A_1^{a_1} B_2^{b_2} C_3^{c_3}\cdots\right)
 \end{equation}
-the probability that the sequence of measurements $A_{k_1} A_{k_2}\cdots
-A_{k_m}$ gives outcomes $x_1 x_2\cdots x_m$, where the upper indices are used to
+the probability that the sequence of measurements $A_1 B_2 C_3 \cdots$ 
+gives as outcomes $a_1 b_2 c_3\cdots $, where the lower indices are used to
 distinguish observables in different positions of the sequence.
 
-The probability $p_f(AB)$ that a measure $A$ could disturb the outcome of $B$
+The probability $p_f(AB)$ of a flip in the outcome of $B$ due to the measure of $A$
 then can be expressed as:
 \begin{equation}
-    p_f(AB) = \sum_{a=0,1} \left[P\left((1|B^1) \cap
-    (a0|A^1 B^2)\right) 
-    + P\left((0|B^1) \cap (a1|A^1 B^2)\right)\right]
+    p_f(AB) = P\left(B_1^+ \et A_1 B_2^-\right) + P\left(B_1^- \et A_1 B_2^+\right)
 \end{equation}
-but those probabilities are not accessible by experiment.
+The problem is that those probabilities are not accessible by experiment.
 Instead what we can measure is the probability
 \begin{equation}
-    p_E (BAB) = \sum_{a=0,1}
-    \left[P\left(0a1|B^1A^2B^3\right)+P\left(1a0|B^1A^2B^3\right)\right]
+    p_E (BAB) = P\left(B_1^+ A_2 B_3^-\right)+P\left(B_1^- A_2 B_3^+\right)
 \end{equation}
-and if we assume that additional measurements can only increase the disturbance
-of a system, we have $p_f(AB) \le p_E (BAB)$, since the probability of a flip
-cannot decrease with the addition of the first measurement of $B$.
+and if we \emph{assume} that additional measurements can only increase the disturbance
+of a system, we have 
+\begin{equation}
+    p_f(AB) \le p_E (BAB)   
+    \label{eq:pe_ass1}
+\end{equation}
+since the probability of a flip cannot decrease with the addition of the first
+measurement of $B$.
 From this considerations follows that:
 \begin{equation}
-    P\left(ab|A^1B^2\right) \le P(ab|AB) + p_f(AB) \le P(ab|AB) + p_E(BAB) 
+    P\left(A_1^a B_2^b\right) \le P(A_1^a \et B_1^b) + p_f(AB) \le P(A_1^a \et B_1^b) + p_E(BAB) 
     \label{eq:prob_noncomp}
 \end{equation}
 
-For example the \acron{CHSH} inequality becomes:
+So for example the \acron{CHSH} inequality becomes:
 \begin{multline}
-    P(++| A_1^1 A_2^2) + P(--| A_1^1 A_2^2) +
-    P(++| B_1^1 B_2^2) + P(--| B_1^1 B_2^2) +\\
-    P(++| B_1^1 A_2^2) + P(--| B_1^1 A_2^2) +
-    P(-+| A_1^1 B_2^2) + P(+-| A_1^1 B_2^2) \le \\
-    \le 3 + 2 p_E(A_2A_1A_2) + 2p_E(B_2B_1B_2) +
-    +2 p_E(A_2B_1A_2) + 2 p_E(A_1B_2A_1)
+    P(X_1^+ A_2^+) + P(X_1^- A_2^-) +
+    P(Z_1^+ B_2^+) + P(Z_1^- B_2^-) +\\
+    P(Z_1^+ A_2^+) + P(Z_1^- A_2^-) +
+    P(X_1^- B_2^+) + P(X_1^+ B_2^-) \le \\
+    \le 3 + 2 p_E(AXA) + 2p_E(BZB) +
+    +2 p_E(AZA) + 2 p_E(XBX)
 \end{multline}
-If we consider instead $\{+1,-1\}$ observables the correlation
-$\langle{A^1B^2}\rangle$ is bounded by
+The correlations $\langle{A_1B_2}\rangle$ instead are bounded by
 \begin{equation}
-    \langle{AB}\rangle \le \langle{A^1B^2}\rangle + p_f(AB) \le
-    \langle{A^1B^2}\rangle +  p_E(BAB)
+    \langle{A_1B_2}\rangle - p_f(AB)\le \langle{AB}\rangle \le \langle{A_1B_2}\rangle + p_f(AB)
 \end{equation}
 in this case the \acron{CHSH} becomes
 \begin{multline}
-    \langle{A_1A_2 + B_1A_2 + B_1B_2 - A_1B_2}\rangle \le 
-    2 +  p_E(A_2A_1A_2) +\\ 
-    + p_E(A_2B_1A_2) +  p_E(B_2B_1B_2) + p_E(B_2A_1B_2)
+    \abs{\langle{X_1A_2 + Z_1A_2 + Z_1B_2 - X_1B_2}\rangle} \le 
+    2 +  2p_E(AXA) +\\ 
+    + 2p_E(AZA) + 2p_E(BZB) + 2p_E(BXB)
 \end{multline}
 
-\subsection{Noisy quantum measurements}
-To model more accurately the disturbance given by imperfect compatibility
-we can think of the system as going through a noisy channel between every
-measurements.
-Quantum mechanically this is represented by a (non unitary) \emph{quantum
+\subsubsection{A more general bound for $p_f$}
+Assumption \eqref{eq:pe_ass1} is not always valid.
+Another, more general, approach is to measure the probability of a flip in
+some set of sequences of measurements $S=\{AA, BB, BAB, ABA, BBB, BBA, AAA, AAB, BAAB,\ldots\}$, in
+order to find the probability of a deviation from ideal compatibility.
+
+For example, for sequences of three measurements in
+\begin{equation}
+ S_3 =\{ABA,BAB,BBA,AAB,ABB,BAA,AAA,BBB\}    
+\end{equation}
+we will measure the probabilities:
+\begin{align}
+    p_E(ABA) &= P(A_1^+ B_2 A_3^-) + P(A_1^- B_2 A_3^+) \\ 
+    p_E(BAB) &= P(B_1^+ A_2 B_3^-) + P(B_1^- A_2 B_3^+) \\ 
+    &\vdots\\
+    p_E(BBB) &= 1 - P(B_1^+ B_2^+ B_3^+) + P(B_1^- B_2^- B_3^-)
+\end{align}
+and sum them, obtaining
+\begin{equation}
+    p_E^3(AB) = p_E(ABA) + p_E(BAB) + p_E(ABB) + p_E(BAA) + p_E(AAA) + p_E(BBB)
+\end{equation}
+where we excluded the terms $p_E(BBA)$ and $p_E(AAB)$ since their contribution
+is already considered in $p_E(BBB)$ and $p_E(AAA)$ respectively.
+
+We \emph{assume} now that when the observable are compatible, the
+non-contextuality holds.
+This will happen with probability
+\begin{equation}
+    p_C(AB) \ge 1 - p_E^3(AB)
+\end{equation}
+in those cases we cannot have a flip, so we conclude that
+\begin{equation}
+    p_f(AB) \le p_E^3(AB)
+    \label{eq:pe_ass2}
+\end{equation}
+obtaining another experimentally measurable bound to the probability of a flip.
+
+Clearly this approach is more general than the previous one, where only terms
+like $p_E(BAB)$ are considered.
+
+%\subsubsection{Extended inequality based on averages}
+%Another way to measure the deviation from compatibility of two observable is by
+%using directly the definition \eqref{def:compatibility2}, measuring those
+%averages for a large number of state preparations.
+%Let's assume that we have found that:
+%\begin{equation}
+%    \abs{\langle{b_1}\rangle_{BA} -
+%    \langle{b_2}\rangle_{AB}} \le \varepsilon_{BA} 
+%    \label{eq:comp_avg_diff}
+%\end{equation}
+%
+%From this we have that
+%\begin{equation}
+%    \abs{P\left(B_1^{\pm}A_2\right) - P\left( A_1 B_2^{\mp}\right)} \le
+%    \frac{\varepsilon_{BA}}{2}
+%    \label{eq:comp_prob_diff}
+%\end{equation}
+%Now, since 
+
+\subsection{Noise in quantum measurements}
+Not only the bound in inequality, but also the value of its
+violation in \QM{} is affected by lack of compatibility.
+
+To give a more accurate description of this effect we can think of the system as
+going through a noisy channel between every measurements.
+Quantum mechanically this can be represented by a (non unitary) \emph{quantum
 operation} $\qE(\rho)$ acting on the density matrix $\rho$ of the system, which
-for example can be expressed in the \emph{operator sum} representation as
+can be expressed in the \emph{operator sum} representation as
 \begin{equation}
     \rho' = \sum_i E_i^\adj \rho E_i
     \label{eq:kraus_evolution}
@@ -860,6 +959,136 @@ so the correlation becomes
 \end{multline}
 Similarly we can calculate the effect of the noise in a sequence of more
 measurements. 
+
+\subsection{Stochastic noise in non-contextual \HVT{}}
+Here we want to construct a model to show how a noisy measurement process can
+change the bound in non-contextual inequality.
+
+Remember that in a hidden variable theory the state of the system is described
+by a variable $\lambda$ (or by a distribution $p(\lambda)$) from which we can
+deduce the value (or the joint distribution) of every measurable property $A(\lambda)$.
+We can then think of the noise as a stochastic process that for every
+measurement changes the state of the system $\lambda \rightarrow \lambda'$ with a certain
+probability.
+In general we can think of the system evolving as
+\begin{equation}
+    \lambda_1 \rightarrow\lambda_2 \rightarrow\cdots\rightarrow\lambda_n
+    \label{eq:noiseHV_evolution}
+\end{equation}
+with a certain probability $p_{\lambda_1\lambda_2\ldots\lambda_n}$.
+
+By using this model we can the averages for non perfectly compatible are given
+by, for example:
+\begin{align}
+    \langle{AB}\rangle = \langle{a_1b_2}\rangle_{AB} &= \sum
+    p_{\lambda_1\lambda_2}A(\lambda_1)B(\lambda_2)\\
+    \langle{BAB}\rangle = \langle{b_1a_2b_3}\rangle_{BAB} &= \sum
+    p_{\lambda_1\lambda_2\lambda_3}B(\lambda_1)A(\lambda_2)B(\lambda_3)
+    \label{eq:noiseHV_avg}
+\end{align}
+
+An important point is that the evolution of the system should not be dependent
+on the observable measured.
+If not, we would in fact just reintroduce contextuality in our model, and we
+could then easily violate every non-contextual inequality.
+
+What we want to describe here are the inevitable deviations from ideal
+compatibility of our observable. 
+Although there's no reason to assume non contextuality for non compatible
+observable, even in a non contextual \HVT{}, what we assume here is that the
+random and (hopefully) small deviation from compatibilty can be described by an
+evolution independent on the measurement context, also called a \emph{non contextual
+evolution}. 
+
+\subsubsection{Markov noise}
+An interesting case is when this evolution can be described as a \emph{Markov
+chain}.
+This is possible if we assume that the probability of transition is the same at
+every step, that is, the process has no memory.
+
+Consider a system with $n$ states $\lambda_1,\ldots,\lambda_n$. 
+To every distribution $p(\lambda)$ we can assign a \emph{probability vector} defined as
+$p_i = p(\lambda_i)$.
+Our markov process is then completely defined by a $n\times n$ matrix $T$, the
+\emph{transition matrix}, whose elements $T_{ij}$ represent the transition
+probabilities $\lambda_i \rightarrow \lambda_j$.
+At every step the probability vector $p^{(n)}$ evolves as
+\begin{equation}
+    p_i^{(n+1)} = \sum_j T_{ij} p_j^{(n)}
+    \label{eq:markov_evolution}
+\end{equation}
+Clearly every transition matrix must fulfill the condition $\sum_i T_{ij} = 1$.
+
+\begin{theorem}
+    For every non-contextual inequality $S$ there exists a maximum bound $S_{M}$ to the
+    possible violation and this bound can always be reached by a suitable Markov process.
+    \label{th:noise_max_violation}
+\end{theorem}
+\begin{proof}
+    A non-contextual inequality is in general a sum of averages:
+    $S = \langle{AB\ldots C}\rangle + \cdots$.
+    If we call
+    \begin{equation}
+        S_{k_1 k_2 \ldots k_m} =
+        A(\lambda_{k_1})B(\lambda_{k_2})\cdots C(\lambda_{k_m}) + \cdots
+    \end{equation}
+    and denote by
+    \begin{equation}
+         S_M = S_{\bar k_1 \bar k_2 \ldots \bar k_m}
+        \label{eq:max_ineq_S}
+    \end{equation}
+    the maximum of $S_{k_1k_2\ldots k_m}$, from \eqref{eq:noiseHV_avg} we have:
+    \begin{equation}
+        S=
+        \sum_{k_1 k_2\ldots k_m} p_{\lambda_{k_1}\lambda_{k_2}\ldots\lambda_{k_m}}S_{k_1 k_2 \ldots k_m} \le 
+        S_M \sum_{k_1 k_2\ldots k_m} p_{k_1}^{(1)} p_{k_2}^{(2)} \cdots
+        p_{k_m}^{(m)} = S_M
+    \end{equation}
+    
+    The process that can reach $S_M$ is the one that gives the one that has
+    the deterministic evolution
+    \begin{equation}
+        \lambda_{\bar k_1} \rightarrow \lambda_{\bar k_2} \rightarrow \cdots
+        \rightarrow \lambda_{\bar k_m}
+    \end{equation}
+\end{proof}
+
+For example for the \acron{chsh} inequality written as
+\begin{equation}
+    S = \langle{XA + AZ + ZB - BX}\rangle \le 2
+    \label{eq:CHSH_maxS}
+\end{equation}
+this maximum is $S_M = 4$, and it's
+reached when the evolution $\lambda_k \rightarrow \lambda_l$ is such that
+\begin{equation}
+    A(\lambda_k)=B(\lambda_l) \quad B(\lambda_k)=C(\lambda_l)
+    \quad C(\lambda_k)= D(\lambda_l) \quad D(\lambda_k)= - A(\lambda_l)
+    \label{eq:maxS_CHSH}
+\end{equation}
+
+\subsubsection{Modifying inequalities for stochastic noise}
+Theorem \ref{th:noise_max_violation} states that a violation of a non
+contextual inequality, can in principle always be attributed to the noise in the
+measurement apparatus if $S_{QM} \le S_M$, where $S_{QM}$ is the maximum
+quantum value for the inequality.
+This is the case in the previous example with the inequality \eqref{eq:CHSH_maxS}.
+
+To rule out non-contextuality also in the case of noise described as a
+non-contextually evolving system, we need then to find inequalities such that
+$S_{QM} \ge S_M$.
+This can simply be done by paying particular attention to the order of the terms
+in known inequalities.
+
+For example if instead of the \acron{chsh} written as in \eqref{eq:CHSH_maxS} we
+use the one in \eqref{eq:CHSH_HVT}:
+\begin{equation}
+    S^* = \langle{XA+ZA+ZB-XB}\rangle \le 2
+    \label{eq:CHSH_minS}
+\end{equation}
+we have that $S^*_M = 2$ this time since
+\begin{equation}
+    X_1 = A_2 = Z_1 = B_2 \quad \implies \quad X_1 = B_2
+\end{equation}
 
 \appendix
 \section{Basic glossary of graph theory}
@@ -968,11 +1197,3 @@ vectors, an orthogonal representation with that property is said to be
 %\section{Noise in quantum systems}
 
 \end{document}
-
-\begin{equation}
-    p_f(AB) = 
-      P\left(\left[1|B^1\right] \cap \left[00|A^1 B^2\right]\right) 
-    + P\left(\left[1|B^1\right] \cap \left[10|A^1 B^2\right]\right) 
-    + P\left(\left[0|B^1\right] \cap \left[a1|A^1 B^2\right]\right)
-    + P\left(\left[0|B^1\right] \cap \left[a1|A^1 B^2\right]\right)
-\end{equation}
